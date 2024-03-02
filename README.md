@@ -1,28 +1,54 @@
+
 # Tic Tac Toe AI
 
-A simple yet intelligent Tic Tac Toe game powered by AI.
+A simple Tic Tac Toe game with AI and Human modes, allowing players to compete against an AI opponent or another player. This project aims to provide an interactive gaming experience with a minimalistic user interface.
+
+## Features
+
+- Play against an AI opponent trained to make smart moves.
+- Two-player mode, allowing two human players to compete against each other.
+- Graphical user interface for easy interaction and gameplay.
+
+## Screenshots
 
 <p float="left">
   <img src="https://github.com/lileetung/tictactoe-ai/assets/83776772/e77ce8dd-ddaa-4785-8954-f684f36b2bcb" width="412" alt="Gameplay"/>
   <img src="https://github.com/lileetung/tictactoe-ai/assets/83776772/92b53ab0-8dc4-4046-87dd-fd90c6cd2755" width="412" alt="X Wins"/>
 </p>
 
+## Prerequisites
 
-Whether you're up for a challenge against our AI or looking to compete in a friendly match against another human, this game offers it all. Get ready to test your Tic Tac Toe prowess!
+Before you begin, ensure you have met the following requirements:
 
-## How to Play
+- Python 3.6 or later
+- Pygame
+- Numpy
 
-To start playing, you simply need to run the `environment.py` script. This game is designed to be interactive and straightforward, providing a seamless experience for both AI and human vs. human matches.
+You can install the required libraries using pip:
 
-### Playing Human vs. Human
+```bash
+pip install pygame numpy
+```
 
-If you're interested in playing a human vs. human match, here's how:
+## How to Run
 
-1. Open your terminal or command prompt.
-2. Navigate to the directory where `environment.py` is located.
-3. Run the command `python environment.py`.
+To play the game, follow these steps:
 
-This will initiate the game, allowing two players to take turns directly on the same machine. The game interface is intuitive, making it easy for players of all ages to jump right into the action.
+1. Clone the repository to your local machine:
 
-Enjoy the timeless strategy game of Tic Tac Toe with a modern twist. Whether against AI or another player, strategy and fun await!
+```bash
+git clone https://github.com/lileetung/tictactoe-ai.git
+```
+
+2. Navigate to the cloned repository:
+
+```bash
+cd tictactoe-ai
+```
+
+3. Run the game:
+
+```bash
+python TicTacToeGame.py
+```
 
