@@ -1,11 +1,14 @@
 import sys
 import numpy as np
 import pygame as pg
+import torch
 from model import TicTacToeModel
 
 def AI(env):
     """AI logic"""
     model = TicTacToeModel()
+    model.load_state_dict(torch.load("model_01000_iters.pt", map_location=torch.device('cpu')))
+    model.eval()  # 设置为评估模式
     action_probs, value = model.predict(env.board)
     valid_moves = (env.board == 0).astype(int).flatten()
     action_probs = action_probs * valid_moves  # mask invalid moves
