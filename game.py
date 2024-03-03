@@ -1,24 +1,4 @@
 import numpy as np
-import unittest
-
-class Board():
-    def __init__(self, n):
-        self.n = n
-        self.board = np.zeros((n, n), dtype=int)
-
-    def __getitem__(self, index):
-        return self.board[index]
-
-    def get_legal_moves(self):
-        return np.argwhere(self.board == 0).tolist()
-
-    def has_legal_moves(self):
-        return np.any(self.board == 0)
-
-    def execute_move(self, move, player):
-        (x, y) = move
-        assert self.board[x, y] == 0
-        self.board[x, y] = player
 
 class TicTacToeGame:
     def __init__(self):
@@ -37,10 +17,11 @@ class TicTacToeGame:
     def get_next_state(self, board, player, action):
         if not isinstance(action, int):
             raise ValueError("Action must be an integer")
-        x, y = divmod(action, self.n) # 将一个一维的动作索引action转换成二维的棋盘坐标x和y，(1, 2) = divmod(5, 3)
-        if board[x, y] == 0:
-            board[x, y] = player
-        return board, -player
+        new_board = np.copy(board)  # Create a copy of the board
+        x, y = divmod(action, self.n)
+        if new_board[x, y] == 0:
+            new_board[x, y] = player
+        return new_board, -player
 
     def get_valid_moves(self, board):
         return (board == 0).astype(int).flatten()

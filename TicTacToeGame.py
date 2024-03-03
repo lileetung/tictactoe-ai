@@ -5,18 +5,18 @@ import torch
 from model import TicTacToeModel
 
 def AI(env):
-    """AI logic"""
     model = TicTacToeModel()
-    model.load_state_dict(torch.load("model_01000_iters.pt", map_location=torch.device('cpu')))
+    try:
+        model.load_state_dict(torch.load("model_weight.pt", map_location=torch.device('cpu')))
+    except:
+        pass
     model.eval()  # 设置为评估模式
     action_probs, value = model.predict(env.board)
     valid_moves = (env.board == 0).astype(int).flatten()
     action_probs = action_probs * valid_moves  # mask invalid moves
     action_probs /= np.sum(action_probs)
     max_index = np.argmax(action_probs)
-    # Convert this index to 2D coordinates
-    row = max_index // 3  # Integer division to find the row
-    col = max_index % 3   # Modulo to find the column
+    row, col = divmod(max_index, 3) # Convert this index to 2D coordinates
     action = (row, col)
     return action
 
@@ -128,17 +128,6 @@ class Environment():
         pg.display.update()
 
     def step(self, action):
-        """
-        Processes a player's action and updates the game state accordingly.
-        
-        Parameters:
-            action: A tuple containing the row and column where the player wants to place their marker.
-        
-        Returns:
-            self.board: The current state of the game board after the action is taken.
-            winner: The result of the check_winner function after the action is taken.
-            True if the game is over (either a win or a draw), False otherwise.
-        """
         row, col = action
         if self.board[row, col] == 0 and not self.gameOver:
             self.board[row, col] = self.currentPlayer
@@ -151,27 +140,12 @@ class Environment():
         return self.board, -1, False
 
     def reset(self):
-        """
-        Resets the game to its initial state for a new game.
-        
-        Returns:
-            self.board: The reset game board with all cells set to 0.
-        """
         self.board = np.zeros((self.rows, self.columns), dtype=int)
         self.currentPlayer = np.random.choice([self.O, self.X])
         self.gameOver = False
         return self.board
 
     def check_winner(self):
-        """
-        Checks the current state of the board for a winner or a draw.
-        
-        Returns:
-            self.X (1) if player X wins,
-            self.O (-1) if player O wins,
-            0 if the game is a draw,
-            None if the game is ongoing.
-        """
         for i in range(self.boardSize):
             if np.all(self.board[i, :] == self.X) or np.all(self.board[:, i] == self.X):
                 return self.X
@@ -186,14 +160,6 @@ class Environment():
         return None
 
     def get_user_action(self):
-        """
-        Handles user input for placing a marker on the board.
-        Updates the board based on user clicks.
-        
-        Returns:
-            A tuple (clicked_row, clicked_col) indicating the row and column where the player placed their marker,
-            None if no valid action was taken (e.g., clicking outside the board or on an already filled cell).
-        """
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
