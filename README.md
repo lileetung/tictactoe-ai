@@ -23,11 +23,12 @@ Before you begin, ensure you have met the following requirements:
 - Python 3.6 or later
 - Pygame
 - Numpy
+- torch
 
 You can install the required libraries using pip:
 
 ```bash
-pip install pygame numpy
+pip install pygame numpy torch torchvision torchaudio
 ```
 
 ## How to Run
