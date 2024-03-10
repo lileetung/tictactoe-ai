@@ -3,20 +3,28 @@ import numpy as np
 import pygame as pg
 import torch
 from model import TicTacToeModel
+from game import TicTacToeGame
 
 def AI(env):
-    model = TicTacToeModel()
+    game = TicTacToeGame()
+    model = TicTacToeModel(game)
     try:
-        model.load_state_dict(torch.load("model_weight.pt", map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load("model.pth"))
     except:
         pass
-    model.eval()  # 设置为评估模式
+    model.eval()
     action_probs, value = model.predict(env.board)
     valid_moves = (env.board == 0).astype(int).flatten()
-    action_probs = action_probs * valid_moves  # mask invalid moves
-    action_probs /= np.sum(action_probs)
+    action_probs = action_probs * valid_moves
+    action_probs_sum = np.sum(action_probs)
+
+    if action_probs_sum > 0:
+        action_probs /= action_probs_sum
+    else:
+        action_probs = np.ones(len(action_probs)) / len(action_probs)
+
     max_index = np.argmax(action_probs)
-    row, col = divmod(max_index, 3) # Convert this index to 2D coordinates
+    row, col = divmod(max_index, 3)
     action = (row, col)
     return action
 
