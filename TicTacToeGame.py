@@ -2,16 +2,17 @@ import sys
 import numpy as np
 import pygame as pg
 import torch
-from model import TicTacToeModel
+from model import TicTacToeCNN
 
 def AI(env):
-    model = TicTacToeModel()
+    model = TicTacToeCNN()
     try:
         model.load_state_dict(torch.load("model.pth"))
     except:
         pass
     model.eval()
-    action_probs, value = model.predict(env.board)
+    board = env.board
+    action_probs, value = model.predict(board)
     valid_moves = (env.board == 0).astype(int).flatten()
     action_probs = action_probs * valid_moves
     action_probs_sum = np.sum(action_probs)
