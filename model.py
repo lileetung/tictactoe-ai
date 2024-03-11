@@ -31,27 +31,3 @@ class TicTacToeModel(nn.Module):
             pi, v = self.forward(board)
         return pi.numpy()[0], v.item()  # Return as numpy array and scalar
     
-
-if __name__ == "__main__":
-    # Initialize the model with the mock game environment
-    tic_tac_toe_model = TicTacToeModel()
-
-    # Create some test board states as fake data
-    test_boards = [
-        np.array([[1, 1, 0], [0, 1, -1], [0, 0, 1]]),  # Mid-game state
-        np.array([[1, -1, 1], [-1, -1, 1], [1, 1, -1]]),  # Full board, draw
-        np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])  # Empty board, start of the game
-    ]
-
-    # Test the model predictions on the fake data
-    for board in test_boards:
-        pi, v = tic_tac_toe_model.predict(board)
-        print("pi: ", pi)
-        print("v: ", v)
-        pi /= np.sum(pi)
-        max_index = np.argmax(pi)
-        # Convert this index to 2D coordinates
-        row = max_index // 3  # Integer division to find the row
-        col = max_index % 3   # Modulo to find the column
-        action = (row, col)
-        print("action: ", action)

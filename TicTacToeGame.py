@@ -3,11 +3,9 @@ import numpy as np
 import pygame as pg
 import torch
 from model import TicTacToeModel
-from game import TicTacToeGame
 
 def AI(env):
-    game = TicTacToeGame()
-    model = TicTacToeModel(game)
+    model = TicTacToeModel()
     try:
         model.load_state_dict(torch.load("model.pth"))
     except:
